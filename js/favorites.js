@@ -280,9 +280,24 @@ async function loadFavorites(page = 1, reset = true) {
 
         // Kedvencek számának frissítése
         await updateFavoritesCount();
-
-        // Get selected category
+        
+        // Kategória szűrő újratöltése az adatbázisból
+        // Mentsük el a jelenleg kiválasztott kategória értékét
         const categoryFilter = document.getElementById('category-filter');
+        let currentSelectedValue = categoryFilter.value;
+        
+        // Frissítsük a kategória listát az adatbázisból
+        await loadUserCategories();
+        
+        // Próbáljuk meg visszaállítani a korábban kiválasztott értéket
+        if (currentSelectedValue && categoryFilter.querySelector(`option[value="${currentSelectedValue}"]`)) {
+            categoryFilter.value = currentSelectedValue;
+        } else {
+            // Ha a korábban kiválasztott érték már nem létezik, állítsuk "all"-ra
+            categoryFilter.value = "all";
+        }
+        
+        // Get selected category
         const selectedCategory = categoryFilter.value;
         const selectedCategoryName = selectedCategory === 'all' ? 'all' : categoryFilter.options[categoryFilter.selectedIndex].textContent;
 
@@ -592,7 +607,7 @@ function initFavoritesEvents() {
     // Kedvencek menüpont kattintás eseménykezelő
     const favoritesMenuItem = document.getElementById('favorites-menu-item');
     if (favoritesMenuItem) {
-        favoritesMenuItem.addEventListener('click', function(e) {
+        favoritesMenuItem.addEventListener('click', async function(e) {
             e.preventDefault();
             
             // Menü elemek állapotának beállítása
@@ -626,9 +641,46 @@ function initFavoritesEvents() {
                 }
             }
             
+            // Kategória szűrő újratöltése az adatbázisból
+            try {
+                // Kategóriák betöltése az adatbázisból
+                await loadUserCategories();
+                console.log('Categories reloaded successfully');
+            } catch (error) {
+                console.error('Error reloading categories:', error);
+            }
+            
             // Kedvencek betöltése
             loadFavorites(1);
         });
+    }
+}
+
+// Kategóriák betöltése az adatbázisból
+async function loadUserCategories() {
+    try {
+        const response = await fetch('get_categories.php');
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            console.error('Failed to load categories:', data.message);
+            return;
+        }
+
+        const categoryFilter = document.getElementById('category-filter');
+        categoryFilter.innerHTML = '<option value="all" selected>All</option>';
+
+        data.categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id; // Itt használjuk az ID-t a név helyett
+            option.textContent = category.name;
+            categoryFilter.appendChild(option);
+        });
+
+        // Show category filter if user is logged in
+        categoryFilter.classList.remove('d-none');
+    } catch (error) {
+        console.error('Error loading categories:', error);
     }
 }
 
