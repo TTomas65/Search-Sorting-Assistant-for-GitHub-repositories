@@ -408,7 +408,7 @@ async function fetchDeveloperDetails(username) {
             const exportButton = document.getElementById('create-excel-btn');
             const originalButtonText = exportButton.textContent;
             exportButton.disabled = true;
-            exportButton.textContent = 'Exportálás folyamatban...';
+            exportButton.textContent = 'Exporting...';
 
             // Betöltjük az ExcelJS könyvtárat, ha még nincs betöltve
             await loadExcelJSLibrary();

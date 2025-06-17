@@ -536,7 +536,7 @@ function showLoadingIndicator() {
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="mt-2">Betöltés folyamatban...</p>
+            <p class="mt-2">Weekly repository offer loading...</p>
         `;
         
         // Hozzáadjuk a dokumentumhoz
