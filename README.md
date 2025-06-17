@@ -114,17 +114,25 @@ Features planned and under development.......:
 
 ## Fixed term based search
 <p align="center">
-  <img src="pictures/search_fix.gif" alt"Simple text-based and fixed term based search process width="800">
+  <img src="pictures/search_fixm.gif" alt"Simple text-based and fixed term based search process width="800">
 </p>
 
 ## Favorite repositories management and categorization
-- under development....
+<p align="center">
+  <img src="pictures/F_repom.gif" alt"Simple text-based and fixed term based search process width="800">
+</p>
 
 ## Managing favourite developers
-- under development....
+<p align="center">
+  <img src="pictures/F_devm.gif" alt"Simple text-based and fixed term based search process width="800">
+</p>
 
 ## Import functions
-- under development....
+<p align="center">
+  <img src="pictures/import.gif" alt"Simple text-based and fixed term based search process width="800">
+</p>
 
 ## Export functions
-- under development....
+<p align="center">
+  <img src="pictures/export.gif" alt"Simple text-based and fixed term based search process width="800">
+</p>
