@@ -1,0 +1,9 @@
+config.php
+github_oauth_config.php
+*.log
+.env
+vendor/
+private/
+encryption_keys.php
+session_config.php
+security_headers.php

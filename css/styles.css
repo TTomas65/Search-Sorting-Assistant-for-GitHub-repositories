@@ -1,0 +1,1801 @@
+/* Képbetöltő stílusok */
+.card-img-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px 4px 0 0;
+}
+
+.card-img-top {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.card-img-top.lazy-loading {
+    opacity: 0.3;
+    width: 40px;
+    height: 40px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50"><path fill="%23ff9538" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/></path></svg>') no-repeat center center;
+}
+
+.card-img-top.lazy-loaded {
+    opacity: 1;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+.card-img-top.lazy-failed {
+    opacity: 0.1;
+    filter: grayscale(100%);
+}
+
+.retry-load-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #ffc107;
+    background-color: #fff3cd;
+    color: #856404;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.retry-load-btn:hover {
+    background-color: #ffe69c;
+    transform: translate(-50%, -50%) scale(1.02);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.retry-load-btn:active {
+    transform: translate(-50%, -50%) scale(0.98);
+}
+
+/* Oldalsó menüpontok nagybetűssé tétele */
+.sidebar-menu .menu-link {
+    text-transform: uppercase;
+}
+
+/* Kártya alapstílusok */
+.card {
+    height: 100%;
+    transition: transform 0.2s;
+    padding: 20px 20px 0 20px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(240, 240, 240);
+}
+
+.card-bg {
+    animation: slide 3s ease-in-out infinite alternate;
+    /*background-image: linear-gradient(-60deg, #dedede 50%, #efefef 50%);  */
+    background-image: linear-gradient(-60deg, #fff3d6 50%, #ffdfab 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: 0.5;
+    position: absolute;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+}
+
+.card-bg.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 4s;
+}
+
+.card-bg.bg3 {
+    animation-duration: 5s;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+    100% {
+        transform: translateX(25%);
+    }
+}
+
+.card:hover .card-bg {
+    opacity: 0.7;
+}
+
+.card > *:not(.card-bg) {
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text {
+    flex-grow: 1;
+}
+
+.repository-stats {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.repository-stats i {
+    margin-right: 5px;
+}
+
+#load-more {
+    background-color: #fd7e14;
+    color: #000;
+    border: none;
+    padding: 10px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+#load-more:hover {
+    background-color: #ff8c2c;
+    color: #fff;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #f8f9fa;
+    border-radius: 0;
+}
+
+body {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(135deg, #969696 0%, #c7c8e2 100%);
+    background-size: 15px 15px, 15px 15px, 100% 100%;
+    min-height: 100vh;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.project-meta {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.languages-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.project-language {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Programnyelvek színei - világosabb, jól olvasható háttérszínek */
+.lang-Python { background-color: #9CD9F0; }
+.lang-JavaScript { background-color: #F9E79F; }
+.lang-TypeScript { background-color: #AED6F1; }
+.lang-HTML { background-color: #F5B7B1; }
+.lang-CSS { background-color: #D7BDE2; }
+.lang-Shell { background-color: #A2D9CE; }
+.lang-Batchfile { background-color: #F9E79F; }
+.lang-CPP { background-color: #FAD7A0; }
+.lang-C { background-color: #D5F5E3; }
+.lang-Java { background-color: #F5CBA7; }
+.lang-Ruby { background-color: #F1948A; }
+.lang-PHP { background-color: #AEB6BF; }
+.lang-Swift { background-color: #F5B7B1; }
+.lang-Go { background-color: #7FB3D5; }
+.lang-Rust { background-color: #E6B0AA; }
+.lang-Kotlin { background-color: #D2B4DE; }
+.lang-Dart { background-color: #A9CCE3; }
+.lang-Vue { background-color: #A3E4D7; }
+.lang-Jupyter { background-color: #F0B27A; }
+.lang-Dockerfile { background-color: #85C1E9; }
+.lang-SCSS { background-color: #BB8FCE; }
+.lang-PowerShell { background-color: #73C6B6; }
+.lang-Assembly { background-color: #F7DC6F; }
+.lang-Lua { background-color: #82E0AA; }
+.lang-R { background-color: #85C1E9; }
+.lang-Perl { background-color: #F1948A; }
+.lang-MATLAB { background-color: #F39C12; }
+.lang-Groovy { background-color: #A2D9CE; }
+.lang-Julia { background-color: #D7BDE2; }
+.lang-Scala { background-color: #E74C3C; }
+.lang-CoffeeScript { background-color: #935116; }
+.lang-Cuda { background-color: #76D7C4; }
+.lang-Svelte { background-color: #FF8A65; }
+.lang-PLpgSQL { background-color: #85C1E9; }
+.lang-CSharp {
+    background-color: #178600;
+    color: #fff;
+}
+
+.lang-ASPNET {
+    background-color: #512BD4;
+    color: #fff;
+}
+
+.lang-JavaScript {
+    background-color: #f1e05a;
+    color: #000;
+}
+
+.lang-TypeScript {
+    background-color: #2b7489;
+    color: #fff;
+}
+
+.lang-Python {
+    background-color: #3572A5;
+    color: #fff;
+}
+
+.lang-Java {
+    background-color: #b07219;
+    color: #fff;
+}
+
+.lang-CPP {
+    background-color: #f34b7d;
+    color: #fff;
+}
+
+.lang-C {
+    background-color: #555555;
+    color: #fff;
+}
+
+.lang-PHP {
+    background-color: #4F5D95;
+    color: #fff;
+}
+
+.lang-Ruby {
+    background-color: #701516;
+    color: #fff;
+}
+
+.lang-Swift {
+    background-color: #ffac45;
+    color: #000;
+}
+
+.lang-Go {
+    background-color: #00ADD8;
+    color: #fff;
+}
+
+.lang-Rust {
+    background-color: #dea584;
+    color: #000;
+}
+
+.lang-TSQL {
+    background-color: #CC2927;
+    color: #fff;
+}
+
+.lang-CSharp {
+    background-color: #178600;
+    color: #fff;
+}
+
+.lang-VisualBasicNET {
+    background-color: #945DB7;
+    color: #fff;
+}
+
+.lang-Solidity {
+    background-color: #363636;
+    color: #fff;
+}
+
+.function-bar {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.form-select, .form-control {
+    height: 38px;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.form-select {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    font-weight: 500;
+}
+
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    border-color: #999;
+}
+
+#search-options-btn {
+    height: 38px;
+    width: 100%;
+    
+    border-color: #858585;
+}
+
+.btn-outline-primary {
+    color: #fff;
+    border-color: #888;
+    background-color: #888;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus,
+.btn-outline-primary.active {
+    color: #fff;
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 149, 56, 0.5) !important;
+}
+
+/* GitHub logó ikon a gombokban */
+.github-button-icon {
+    height: 20px;
+    width: auto;
+    margin-right: 5px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.card-header-left {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.btn-readme {
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 700;
+}
+
+.card .btn:hover,
+.btn-readme:hover {
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+    color: #ffffff;
+}
+
+.favorite-btn {
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 700;
+}
+
+.favorite-btn:hover {
+    background-color: #888;
+    border-color: #888;
+    color: #fff;
+}
+
+.favorite-btn[style*="background-color: yellow"] {
+    background-color: yellow !important;
+    border-color: #ddd;
+    color: #000000 !important;;
+}
+
+.favorite-btn[style*="background-color: yellow"]:hover {
+    background-color: yellow !important;
+    border-color: #ddd;
+    color: #555;
+}
+
+button.dev-btn {
+    padding: 5px 10px !important;
+    background-color: #e0e0e0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    font-size: 0.85rem !important;
+    color: #555 !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease;
+    min-width: 70px !important;
+}
+
+button.dev-btn[style*="background-color"] {
+    color: black !important;
+}
+
+button.dev-btn:hover {
+    background-color: #888 !important;
+    border-color: #888 !important;
+    color: #fff !important;
+}
+
+button.dev-btn[style*="background-color"]:hover {
+    color: black !important;
+}
+
+
+.starred-button {
+    background-color: #ff9538 !important;
+    color: black !important;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.starred-button:hover {
+    background-color: #ff9538 !important;
+    color: black !important;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.readme-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.readme-content {
+    background-color: white;
+    width: calc(100% - 40px);
+    max-width: 1200px;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.readme-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.readme-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0 5px;
+}
+
+.close-popup:hover {
+    color: #333;
+}
+
+.readme-body {
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: calc(80vh - 60px);
+}
+
+.readme-body pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-family: inherit;
+}
+
+#search-info {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.search-title {
+  font-size: 1.6rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  
+ 
+  height: 38px;
+}
+
+.header-with-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.github-logo {
+    height: 40px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.header-with-logo {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.header-with-logo img.github-logo {
+    height: 80px;
+    margin-right: 10px;
+}
+
+.header-with-logo .version-text {
+    font-size: 14px;
+    padding-bottom: 0px;
+}
+
+.header-with-logo .fw-bold {
+    font-size: 1.3rem;
+}
+
+#auth-buttons .btn {
+    font-weight: 500;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.control-label {
+    font-size: 0.85rem;
+    color: #060606;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-bottom: 0.5rem;
+}
+
+#search-topic-container,
+#custom-search-container {
+    margin-top: 0.5rem;
+}
+
+#custom-search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#custom-search {
+    flex: 1;
+}
+
+#add-to-fix-list {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    
+}
+
+#add-to-fix-list i {
+    font-size: 0.8rem;
+    margin-right: 0.25rem;
+}
+
+#custom-search-container {
+    margin-top: 0.5rem;
+}
+
+.form-check-input:checked {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Custom search input fókusz stílusa */
+#custom-search:focus {
+    border-color: #ff9538;
+    box-shadow: 0 0 0 0.25rem rgba(255, 149, 56, 0.25);
+    outline: 0;
+}
+
+/* Custom Search Toggle Styles */
+.form-check-input:checked {
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+}
+
+.form-check-input:focus {
+    border-color: #ff9538;
+    box-shadow: 0 0 0 0.25rem rgba(255, 149, 56, 0.25);
+}
+
+.form-check-input:not(:checked):hover {
+    border-color: #ff9538;
+}
+
+/* Custom Search Container Glow */
+#custom-search-container {
+    transition: all 0.3s ease;
+}
+
+#custom-search-container.active {
+    box-shadow: 0 0 10px rgba(255, 149, 56, 0.5);
+    border-radius: 5px;
+}
+
+/* API Rate Limit kártya stílusa */
+.card.mb-3 {
+    background-color: #e1e1e1;
+    padding: 0;
+}
+
+.card.mb-3 .card-body {
+    padding: 0.5rem 1rem;
+}
+
+/* Search options kártya stílusa */
+.card.mb-4 {
+    background-color: #dedede;
+}
+
+/* Nyelvválasztó elemek stílusa */
+.language-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+}
+
+.language-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.language-item label {
+    cursor: pointer;
+    padding: 4px 8px;
+    margin: 0;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.language-item label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.language-item input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.total-results-label {
+    font-size: 1.2rem !important;
+    background: #ff9538;
+    padding-left: 20px;
+    border-radius: 4px;
+    padding-right: 20px;
+  }
+
+.total-results-label .fw-bold {
+    font-size: 1.3rem;
+    color: #000;
+    padding-left: 10px;
+}
+
+/* Kártyákban és README popupban lévő gombok hover effektusa */
+.card .btn:hover,
+.readme-popup .btn:hover,
+.readme-content .btn:hover,
+.close-popup:hover {
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+}
+
+/* Token gomb aktív állapot */
+#token-button.active {
+    background-color: #ff9538;
+    color: black;
+    border-color: #ff9538;
+}
+
+#token-button.active:hover {
+    color: white;
+}
+
+/* Kedvencek listázó gomb stílusa */
+#list-favorites-button {
+    background-color: #ff9538;
+    color: black;
+    border-color: #ff9538;
+}
+
+#list-favorites-button:hover {
+    color: white;
+    background-color: #ff9538;
+    border-color: #ff9538;
+}
+
+/* Reszponzív stílusok */
+@media (max-width: 991.98px) {
+    .control-label {
+        margin-bottom: 0.25rem;
+    }
+
+    .search-title {
+        font-size: 0.9rem;
+    }
+
+    #search-topic-container,
+    #custom-search-container,
+    .form-select,
+    .search-title,
+    #search-options-btn {
+        width: 100%;
+    }
+
+    .d-flex.align-items-center {
+        flex-wrap: wrap;
+    }
+
+    .form-check {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .control-label {
+        text-align: left;
+        margin-bottom: 0.25rem;
+    }
+
+    .search-title {
+        font-size: 0.875rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 0.4rem !important;
+    }
+}
+
+/* Fix URL input stílusok */
+#fixed-url-input {
+    min-width: 300px;
+    width: 430px;
+}
+
+#fixed-url-input:focus {
+    border-color: #ff9538;
+    box-shadow: 0 0 0 0.25rem rgba(255, 149, 56, 0.25);
+    outline: 0;
+}
+
+/* Fixed URL jelölőnégyzet stílusa */
+#fixed-url-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 149, 56, 0.25);
+    border-color: #ff9538;
+}
+
+#fixed-url-toggle:checked {
+    background-color: #ff9538;
+    border-color: #ff9538;
+}
+
+#current-search-text,
+#current-search-options {
+    font-weight: bold;
+}
+
+/* Kategória választó stílusok */
+.category-select-container {
+    margin-top: 0px;
+}
+
+.category-select {
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 14px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.category-select:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card-body .search-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-options .top-row,
+.search-options .bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-options .fixed-url-container {
+    flex-grow: 1;
+}
+
+/* Egyedi megjegyzések mező stílusai */
+.notes-container {
+    margin: 10px 0;
+    width: 100%;
+}
+
+.individual-notes {
+    width: 100%;
+    min-height: 60px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+}
+
+.individual-notes:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.individual-notes::placeholder {
+    color: #666;
+    opacity: 0.8;
+}
+
+/* Elrejtjük a megjegyzések mezőt a nem-kedvenc kártyákon */
+.project-card:not(.favorite) .notes-container {
+    display: none;
+}
+
+/* Developer List Styles */
+.developer-list-container {
+    margin-bottom: 20px;
+}
+
+/* GitHub bejelentkezési gomb stílusok */
+.github-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #24292e;
+    color: white;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.github-login-button:hover {
+    background-color: #0d1117;
+    color: white;
+}
+
+/* Elválasztó stílusok */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #6c757d;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.separator span {
+    padding: 0 10px;
+}
+
+.developer-list-header {
+    margin-bottom: 15px;
+    display: none; /* Elrejtjük a fejlécet a kérés szerint */
+}
+
+.developer-card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(240, 240, 240);
+    padding: 20px 20px 0 20px;
+}
+
+.developer-card::before,
+.developer-card::after {
+    display: none;
+}
+
+.developer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.developer-card .card-bg {
+    z-index: -1;
+}
+
+.developer-card > .row {
+    position: relative;
+    z-index: 1;
+}
+
+.developer-avatar {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  padding: 0px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.developer-stats {
+    margin-top: 10px;
+}
+
+.remove-dev-btn {
+    background-color: #ffff00 !important;
+}
+
+.repo-button {
+    background-color: #ff9538 !important;
+  color: black !important;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.repo-button:hover {
+    background-color: #ec971f !important;
+}
+
+@media (max-width: 768px) {
+    .developer-avatar {
+        max-width: 80px;
+        padding: 0;
+        border-width: 10px;
+    }
+}
+
+/* GitHub Stats Cards */
+.github-stats-cards {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stats-card-container {
+    overflow: hidden;
+    border-radius: 6px;
+    background: #5c6c7b;
+    
+    min-width: 200px;
+}
+
+.github-stats-card {
+    width: 100%;
+    height: 170px;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .github-stats-cards {
+        flex-direction: column;
+    }
+    
+    .stats-card-container {
+        width: 100%;
+    }
+}
+
+/* Load More Developers gomb */
+#load-more-developers {
+    display: block;
+    margin: 20px auto;
+    padding: 8px 20px;
+    background-color: #ff9538;
+    border-color: #ff9538;
+    color: black;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#load-more-developers:hover {
+    background-color: #e87b20;
+    border-color: #e87b20;
+}
+
+#load-more-developers:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Developer megjegyzés mező */
+.developer-notes {
+    background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #b7b0b0;
+  border-radius: 4px;
+  
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  max-width: 725px;
+}
+
+.developer-notes:focus {
+    border-color: #ff9538;
+    box-shadow: 0 0 0 0.2rem rgba(255, 149, 56, 0.25);
+    outline: none;
+}
+
+.notes-container {
+    position: relative;
+}
+
+.notes-container::before {
+    content: " ";
+    position: absolute;
+    top: -18px;
+    left: 0;
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Developer Repositories */
+.dev-repositories-container {
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+    display: none;
+}
+
+.dev-repositories-slider {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.dev-repo-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 0 10px;
+    min-width: 250px;
+}
+
+.dev-repo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dev-repo-nav.prev {
+    left: 5px;
+}
+
+.dev-repo-nav.next {
+    right: 5px;
+}
+
+.dev-repo-nav:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.dev-repo-card .card {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 1px;
+}
+
+.dev-repo-card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dev-repo-card .card-body {
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+}
+
+.dev-repo-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dev-repo-card .card-text {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.dev-repo-card .repository-stats {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.repo-button {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.repo-button:hover {
+    background-color: #f8f9fa;
+}
+
+.repo-image-container {
+    position: relative;
+    width: 100%;
+    
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: 2;
+}
+
+.repo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.dev-repo-card .card:hover .repo-image {
+    transform: scale(1.05);
+}
+
+.dev-repo-card .card .card-bg,
+.dev-repo-card .card .card-bg.bg2,
+.dev-repo-card .card .card-bg.bg3 {
+    display: none !important;
+}
+
+/* Repository actions konténer */
+.repo-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background-color: #dddfe1;
+    border-bottom: 1px solid #eee;
+}
+
+/* Repository kedvenc gomb stílusa */
+.btn-repo-favorite {
+    padding: 5px 10px;
+    background-color: rgba(128, 128, 128, 0.85);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-repo-favorite:hover {
+    background-color: #ff9538 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Starred repository list konténer */
+.starred-list-container {
+    display: none;
+    position: relative;
+    margin-top: 1rem;
+    overflow: visible;
+    height: auto;
+    padding-bottom: 80px;
+}
+
+.starred-repositories-slider {
+    display: flex;
+    flex-wrap: wrap;
+    transition: transform 0.3s ease;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.starred-repo-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 10px;
+    min-width: 300px;
+}
+
+.starred-repo-card .card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    position: relative;
+}
+
+.starred-repo-card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.starred-repo-card .repo-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.starred-repo-card .btn-repo-favorite {
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 700;
+}
+
+.starred-repo-card .btn-repo-favorite:hover {
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+    color: #ffffff;
+}
+
+.starred-repo-nav {
+    position: absolute;
+    top: 100px; /* Fix pozíció a tetejétől */
+    transform: translateY(0); /* Eltávolítjuk a függőleges középre igazítást */
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.starred-repo-nav.prev {
+    left: 10px;
+}
+
+.starred-repo-nav.next {
+    right: 10px;
+}
+
+.starred-repo-nav i {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Load More Starred Repositories button */
+.load-more-starred-btn {
+    display: block;
+    margin: 20px auto;
+    background-color: #ff9538;
+    border-color: #ff9538;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.load-more-starred-btn:hover {
+    background-color: #e67e32;
+    border-color: #e67e32;
+    color: white;
+}
+
+.load-more-starred-btn:disabled {
+    background-color: #cccccc;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Repository actions konténer */
+.repo-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background-color: #dddfe1;
+    border-bottom: 1px solid #eee;
+}
+
+/* Repository kedvenc gomb stílusa */
+.btn-repo-favorite {
+    padding: 5px 10px;
+    background-color: rgba(128, 128, 128, 0.85);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-repo-favorite:hover {
+    background-color: #ff9538 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.readme-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.readme-content {
+    background-color: white;
+    width: calc(100% - 40px);
+    max-width: 1200px;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.readme-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.readme-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0 5px;
+}
+
+.close-popup:hover {
+    color: #333;
+}
+
+.readme-body {
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: calc(80vh - 60px);
+}
+
+/* View README gomb stílusa */
+.btn-readme {
+    padding: 5px 10px;
+    background-color: #8e8e8e;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 700;
+    position: relative;
+    z-index: 3;
+}
+
+.btn-readme:hover {
+    background-color: #ff9538 !important;
+    border-color: #ff9538 !important;
+    color: #ffffff;
+}
+
+.load-more-btn-container {
+    clear: both;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 20;
+}
+
+/* Repository slider konténer */
+.dev-repositories-container {
+    position: relative;
+    margin-top: 1rem;
+    overflow: visible;
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.dev-repositories-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    transition: transform 0.3s ease;
+    margin: 0 30px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.dev-repositories-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.dev-repo-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 0 10px;
+    min-width: 250px;
+}
+
+/* Új grid elrendezés a fejlesztő repositorykhoz */
+.dev-repositories-grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.dev-repositories-grid .dev-repo-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 10px;
+    min-width: 300px;
+}
+
+.dev-repo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #24292e;
+    color: #fff;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 20px 0 0 0;
+    background-color: #1b1f23;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.sidebar-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transition: background-color 0.3s;
+}
+
+.sidebar-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo {
+    
+    height: 160px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.sidebar-menu {
+    padding: 10px 0;
+}
+
+.menu-item {
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.menu-item:hover {
+    background-color: #3a3f46;
+}
+
+.menu-link {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: font-weight 0.2s;
+}
+
+.menu-link:hover, .menu-link.active {
+    color: #fff;
+    font-weight: bold;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+    background-color: #24292e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: none; /* Alapértelmezetten elrejtve */
+}
+
+.menu-toggle:hover {
+    background-color: #3a3f46;
+}
+
+body.sidebar-collapsed .menu-toggle,
+.sidebar:not(.active) ~ .menu-toggle {
+    display: block;
+}
+
+.main-content {
+    transition: all 0.3s;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        left: 0;
+    }
+    
+    .main-content {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    
+    .menu-toggle {
+        display: none;
+    }
+    
+    body.sidebar-collapsed .sidebar {
+        left: -250px;
+    }
+    
+    body.sidebar-collapsed .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+.repository-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+    background-color: #24292e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: none; /* Alapértelmezetten elrejtve */
+}
+
+.menu-toggle:hover {
+    background-color: #3a3f46;
+}
+
+/* Ezeket a szabályokat kikommentezzük, hogy a JavaScript kezelje a megjelenítést */
+/*
+body.sidebar-collapsed .menu-toggle,
+.sidebar:not(.active) ~ .menu-toggle {
+    display: block;
+}
+*/
+
+.main-content {
+    transition: all 0.3s;
+    width: 100%;
+}
+
+/* GitHub Stats Cards */
+.github-stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+}
+
+/* Betöltési animáció a kedvencek kártyáihoz */
+.opacity-animation {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.stats-card-container {
+    overflow: hidden;
+    border-radius: 6px;
+    background: #5c6c7b;
+    
+    min-width: 200px;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: #ff9538 !important;
+  }

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search & sorting Assistant</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/github-markdown.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        .btn-warning.hover-white:hover {
+            color: white !important;
+        }
+        #readme-button {
+            background-color: rgb(255, 149, 56) !important;
+            border-color: rgb(255, 149, 56) !important;
+        }
+        #readme-button:hover {
+            background-color: rgb(230, 134, 50) !important;
+            border-color: rgb(230, 134, 50) !important;
+        }
+        .api-status-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            background-color: #c1c1c1;
+            color: #495057;
+        }
+        .api-status-indicator.active {
+            background-color: #ff954c;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="pictures/SASA_logo_05.png" alt="SASA Logo" class="sidebar-logo">
+           
+            <button class="sidebar-close" id="sidebar-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item">
+                <a href="#" class="menu-link active" data-section="search">Search</a>
+            </div>
+            <div class="menu-item">
+                <a href="#" class="menu-link" data-section="favorites">Favourite repositories</a>
+            </div>
+            <div class="menu-item">
+                <a href="#" class="menu-link" data-section="developers">Favourite developers</a>
+            </div>
+            <div class="menu-item">
+                <a href="#" class="menu-link" data-section="import-export">Github Import</a>
+            </div>
+            <div class="menu-item">
+                <a href="#" class="menu-link" data-section="excel-export">Excel export</a>
+            </div>
+            <div class="menu-item">
+                <a href="#" class="menu-link" data-section="readme" data-bs-toggle="modal" data-bs-target="#readmeModal">README</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile menu toggle button -->
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="bi bi-list"></i> Menu
+    </button>
+    
+    <!-- Main content wrapper -->
+    <div class="main-content">
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0 header-with-logo d-flex align-items-end">
+                    <img src="pictures/SASA_logo_08.png" alt="SASA Logo" class="github-logo">
+                    <span class="fw-bold version-text"><small>(ver.: 0.751 Beta)</small></span>
+                    <a href="https://github.com/TTomas65/GitHub_app_search" target="_blank" class="btn btn-sm ms-3 project-repo-btn" style="background-color: #6a6a6a; color: white;">
+                        <img src="pictures/GitHub-Logo_button.png" alt="GitHub" class="github-button-icon"> View the project repository
+                    </a>
+                    <style>
+                        .project-repo-btn:hover {
+                            background-color: #ff9538 !important;
+                            color: white !important;
+                        }
+                    </style>
+                </h1>
+                <div id="auth-buttons">
+                    <a href="github_login.php" class="btn btn-dark github-login-button">
+                        <i class="bi bi-github me-2"></i> Sign in with GitHub
+                    </a>
+                </div>
+                <div id="user-info" class="d-none">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="username-display" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #6a6a6a; color: white;">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="username-display">
+                            <li><a class="dropdown-item" href="#" id="logout-button">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Info Panel -->
+            <div class="card mb-3">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="total-results-label">
+                            Total Results: <span id="total-count" class="fw-bold">0</span>
+                        </div>
+                        <div id="search-info">
+                            <span class="me-4">API Rate Limit: <span id="rate-limit" class="fw-bold">0</span> / <span id="rate-limit-max" class="fw-bold">0</span></span>
+                            <span class="me-4">API Reset Time: <span id="rate-reset" class="fw-bold">-</span></span>
+                            <div class="api-status-indicator" id="api-status-indicator">
+                                Basic API Usage
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Favorites Info Panel -->
+            <div class="card mb-3">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div id="favorites-info" class="d-flex justify-content-between align-items-center w-100">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="search-options">
+                                        <div class="top-row">
+                                            <div>Number of favorite repositories: <span id="favorites-count" class="fw-bold">0</span></div>
+                                        </div>
+                                        <div class="bottom-row">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="fixed-url-toggle">
+                                                <label class="form-check-label" for="fixed-url-toggle">Specify a fixed URL</label>
+                                            </div>
+                                            <div id="fixed-url-container" class="fixed-url-container" style="display: none;">
+                                                <!-- Dummy hidden password input to suppress browser password suggestions -->
+                                                <input type="password" style="display:none" aria-hidden="true">
+                                                <!-- Real URL input field -->
+                                                <input type="url" class="form-control" id="fixed-url-input" placeholder="Enter GitHub repository URL" autocomplete="off" spellcheck="false" autocapitalize="off" inputmode="url" data-form-type="other" data-lpignore="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <select id="category-filter" class="form-select form-select-sm d-none" style="width: 200px;">
+                                    <option value="all" selected>All</option>
+                                </select>
+                                <button type="button" class="btn btn-warning" id="list-favorites-button">List my favourites</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Controls -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <!-- Labels row -->
+                        <div class="row mb-2">
+                            <div class="col-lg-3 col-md-6 mb-2">
+                                <!-- A Total Results részt eltávolítottuk innen és áthelyeztük a felső információs kártyacsíkba -->
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-2">
+                                <div class="control-label">Custom / Fix search definitions</div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-2">
+                                <div class="control-label">Fine-tune search settings</div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-2">
+                                <div class="control-label">Display order</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls row -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <button class="btn mb-2" id="weekly-repo-button" style="background-color: #505050; color: white;">Our weekly repository offer</button>
+                                <h2 class="search-title mb-1" id="current-search-text">ComfyUI</h2>
+                                <div class="search-options-text small text-muted" id="current-search-options"></div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="form-check form-switch me-3">
+                                        <input class="form-check-input" type="checkbox" id="custom-search-toggle">
+                                        <label class="form-check-label" for="custom-search-toggle">Custom search</label>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary" id="add-to-fix-list" style="display: none;">
+                                        <i class="bi bi-plus"></i> Add to Fix List
+                                    </button>
+                                </div>
+                                <div id="search-topic-container">
+                                    <div class="d-flex align-items-center">
+                                        <select class="form-select" id="search-topic" autocomplete="off">
+                                            <option value="Weekly repository offer">Weekly repository offer</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-outline-danger ms-2" id="delete-from-fix-list">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <button class="btn w-100" type="button" id="search-options-btn" data-bs-toggle="collapse" data-bs-target="#searchOptionsPanel" style="background-color: #ff9538; color: white;">
+                                    <i class="bi bi-gear-fill"></i> Search Options
+                                </button>
+                                <style>
+                                    #search-options-btn:hover {
+                                        background-color: #505050 !important;
+                                        color: white !important;
+                                    }
+                                </style>
+                                <button class="btn btn-outline-secondary w-100 mt-2" type="button" id="manual-search-button">
+                                    <i class="bi bi-search"></i> Search manual start...
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <select id="sort-select" class="form-select">
+                                    <option value="best-match">Best match</option>
+                                    <option value="stars" selected>Stars</option>
+                                    <option value="forks">Forks</option>
+                                    <option value="help-wanted-issues">Help wanted issues</option>
+                                    <option value="updated">Last updated</option>
+                                    <option value="last-commit">Last commit</option>
+                                </select>
+                            </div>
+                            <div id="custom-search-container" style="display: none;">
+                                <form autocomplete="off" onsubmit="return false;">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input type="search" 
+                                               class="form-control search-only" 
+                                               id="custom-search" 
+                                               name="q"
+                                               placeholder="Enter your search term"
+                                               autocomplete="chrome-off"
+                                               spellcheck="false"
+                                               aria-label="Search input"
+                                               maxlength="512">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Options Panel -->
+                    <div class="collapse" id="searchOptionsPanel">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <strong>Name Match</strong>
+                                        <div class="form-check">
+                                            <input class="form-check-input search-option name-match" type="checkbox" id="search-name-approx" checked>
+                                            <label class="form-check-label" for="search-name-approx">
+                                                Approximate match
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input search-option name-match" type="checkbox" id="search-name-exact">
+                                            <label class="form-check-label" for="search-name-exact">
+                                                Exact match
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <strong>Description and README Match</strong>
+                                        <div class="form-check">
+                                            <input class="form-check-input search-option desc-match" type="checkbox" id="search-desc-approx">
+                                            <label class="form-check-label" for="search-desc-approx">
+                                                Description match
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input search-option" type="checkbox" id="search-readme">
+                                            <label class="form-check-label" for="search-readme">
+                                                Search in README
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <strong>Additional Options</strong>
+                                        <div class="form-check">
+                                            <input class="form-check-input search-option" type="checkbox" id="search-new-week">
+                                            <label class="form-check-label" for="search-new-week">
+                                                New This Week
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h6 class="mb-3"><strong>Programming Languages</strong></h6>
+                                    <div class="languages-select-container">
+                                        <div class="language-checkboxes">
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-python" name="lang" value="Python"><label class="btn lang-Python m-1" for="lang-python">Python</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-javascript" name="lang" value="JavaScript"><label class="btn lang-JavaScript m-1" for="lang-javascript">JavaScript</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-typescript" name="lang" value="TypeScript"><label class="btn lang-TypeScript m-1" for="lang-typescript">TypeScript</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-html" name="lang" value="HTML"><label class="btn lang-HTML m-1" for="lang-html">HTML</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-css" name="lang" value="CSS"><label class="btn lang-CSS m-1" for="lang-css">CSS</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-shell" name="lang" value="Shell"><label class="btn lang-Shell m-1" for="lang-shell">Shell</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-batchfile" name="lang" value="Batchfile"><label class="btn lang-Batchfile m-1" for="lang-batchfile">Batchfile</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-cpp" name="lang" value="C++"><label class="btn lang-CPP m-1" for="lang-cpp">C++</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-c" name="lang" value="C"><label class="btn lang-C m-1" for="lang-c">C</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-java" name="lang" value="Java"><label class="btn lang-Java m-1" for="lang-java">Java</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-ruby" name="lang" value="Ruby"><label class="btn lang-Ruby m-1" for="lang-ruby">Ruby</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-php" name="lang" value="PHP"><label class="btn lang-PHP m-1" for="lang-php">PHP</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-swift" name="lang" value="Swift"><label class="btn lang-Swift m-1" for="lang-swift">Swift</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-go" name="lang" value="Go"><label class="btn lang-Go m-1" for="lang-go">Go</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-rust" name="lang" value="Rust"><label class="btn lang-Rust m-1" for="lang-rust">Rust</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-kotlin" name="lang" value="Kotlin"><label class="btn lang-Kotlin m-1" for="lang-kotlin">Kotlin</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-dart" name="lang" value="Dart"><label class="btn lang-Dart m-1" for="lang-dart">Dart</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-vue" name="lang" value="Vue"><label class="btn lang-Vue m-1" for="lang-vue">Vue</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-jupyter" name="lang" value="Jupyter"><label class="btn lang-Jupyter m-1" for="lang-jupyter">Jupyter</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-dockerfile" name="lang" value="Dockerfile"><label class="btn lang-Dockerfile m-1" for="lang-dockerfile">Dockerfile</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-scss" name="lang" value="SCSS"><label class="btn lang-SCSS m-1" for="lang-scss">SCSS</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-powershell" name="lang" value="PowerShell"><label class="btn lang-PowerShell m-1" for="lang-powershell">PowerShell</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-assembly" name="lang" value="Assembly"><label class="btn lang-Assembly m-1" for="lang-assembly">Assembly</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-lua" name="lang" value="Lua"><label class="btn lang-Lua m-1" for="lang-lua">Lua</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-r" name="lang" value="R"><label class="btn lang-R m-1" for="lang-r">R</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-perl" name="lang" value="Perl"><label class="btn lang-Perl m-1" for="lang-perl">Perl</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-matlab" name="lang" value="MATLAB"><label class="btn lang-MATLAB m-1" for="lang-matlab">MATLAB</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-groovy" name="lang" value="Groovy"><label class="btn lang-Groovy m-1" for="lang-groovy">Groovy</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-julia" name="lang" value="Julia"><label class="btn lang-Julia m-1" for="lang-julia">Julia</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-scala" name="lang" value="Scala"><label class="btn lang-Scala m-1" for="lang-scala">Scala</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-coffeescript" name="lang" value="CoffeeScript"><label class="btn lang-CoffeeScript m-1" for="lang-coffeescript">CoffeeScript</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-cuda" name="lang" value="Cuda"><label class="btn lang-Cuda m-1" for="lang-cuda">Cuda</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-svelte" name="lang" value="Svelte"><label class="btn lang-Svelte m-1" for="lang-svelte">Svelte</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-plpgsql" name="lang" value="PLpgSQL"><label class="btn lang-PLpgSQL m-1" for="lang-plpgsql">PLpgSQL</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-csharp" name="lang" value="C#"><label class="btn lang-CSharp m-1" for="lang-csharp">C#</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-aspnet" name="lang" value="ASP.NET"><label class="btn lang-ASPNET m-1" for="lang-aspnet">ASP.NET</label></div>
+                                            <div class="form-check language-item"><input type="checkbox" class="form-check-input" id="lang-solidity" name="lang" value="Solidity"><label class="btn lang-Solidity m-1" for="lang-solidity">Solidity</label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="projects-container" class="row"></div>
+
+            <div class="d-flex justify-content-center mt-4 mb-5" id="load-more-container" style="display: none;">
+                <button class="btn btn-warning" id="load-more">Load More</button>
+            </div>
+
+            <!-- Excel Export Panel -->
+            <div id="excel-export-panel" style="display: none;">
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Excel Export Options</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="export-favorite-repos" checked>
+                            <label class="form-check-label" for="export-favorite-repos">
+                                Favourite repositories
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="export-favorite-devs" checked>
+                            <label class="form-check-label" for="export-favorite-devs">
+                                Favourite developers
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="export-own-repos" checked>
+                            <label class="form-check-label" for="export-own-repos">
+                                Own repositories
+                            </label>
+                        </div>
+                        <button id="create-excel-btn" class="btn btn-success mt-3">Create Excel list</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Github Import Panel -->
+            <div id="github-import-export-panel" style="display: none;">
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Github Import</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="import-github-repos" checked>
+                            <label class="form-check-label" for="import-github-repos">
+                                Importing starred repositories from Github
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="import-watching-repos">
+                            <label class="form-check-label" for="import-watching-repos">
+                                Importing watching repositories from Github
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="import-following-devs">
+                            <label class="form-check-label" for="import-following-devs">
+                                Importing followed developers from Github
+                            </label>
+                        </div>
+                        <button id="start-operation-btn" class="btn btn-success mt-3">Start import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Token Modal -->
+    <div class="modal fade" id="tokenModal" tabindex="-1" aria-labelledby="tokenModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tokenModalLabel">GitHub API Token</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="github-token" class="form-label">Enter your GitHub Personal Access Token:</label>
+                        <input type="password" class="form-control" id="github-token" placeholder="ghp_...">
+                        <div class="form-text">Your token will be stored securely in your browser's local storage.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-token">Save Token</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">LOGIN</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">Log in with your GitHub account to access all features</p>
+                    <a href="github_login.php" class="btn btn-dark w-100 github-login-button">
+                        <i class="bi bi-github me-2"></i> Sign in with GitHub
+                    </a>
+                    <div class="mt-4">
+                        <p class="small">Your GitHub account information will be used for authentication only.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GitHub Authentication Info Modal -->
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="registrationModalLabel">GITHUB AUTHENTICATION</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">This application now uses GitHub authentication exclusively</p>
+                    <a href="github_login.php" class="btn btn-dark w-100 github-login-button">
+                        <i class="bi bi-github me-2"></i> Sign in with GitHub
+                    </a>
+                    <div class="mt-4">
+                        <p class="fw-bold mb-2">NOTE:</p>
+                        <p class="small">By signing in with GitHub, you allow the application to securely store your personal lists and preferences. Your GitHub profile information will be used for authentication only. Accounts that remain inactive for more than 2 months will be automatically removed along with all associated data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- README Modal -->
+    <div class="modal fade" id="readmeModal" tabindex="-1" aria-labelledby="readmeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="readmeModalLabel">README</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body markdown-body" id="readme-content">
+                    <!-- A README tartalma ide kerül -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- SheetJS Library for Excel Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- GitHub API Token kezelés - ezt minden más JS előtt kell betölteni -->
+    <!-- Képbetöltő modul a megbízhatóbb képbetöltéshez -->
+    <script src="js/image-loader.js"></script>
+    <script src="js/github-auth.js"></script>
+    <!-- GitHub fejlesztői API segéd függvények -->
+    <script src="js/developer-api-helper.js"></script>
+    <script src="script.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="developer_list.js"></script>
+    <!-- OAuth javítás a developer_list.js-hez - felülírja a kritikus függvényeket -->
+    <script src="js/developer-list-oauth-fix.js"></script>
+    <script src="js/section-manager.js"></script>
+    <script src="js/excel-export.js"></script>
+    <script src="js/excel-login-fix.js"></script>
+    <script src="js/github-import-export.js"></script>
+    <!-- Repositori képbetlenés ellenőrzés és javítás -->
+    <script src="js/image-loader-fix.js"></script>
+    <!-- Kiegészítő javítás a Repos és View Developer Starred List gombokhoz -->
+    <script src="js/list-buttons-fix.js"></script>
+    <!-- Kezdeti repository ajánlatok kezelése -->
+    <script src="start_repos.js"></script>
+    <!-- Heti repository ajánlatok kezelése -->
+    <script src="weekly_repos.js"></script>
+</body>
+</html>
