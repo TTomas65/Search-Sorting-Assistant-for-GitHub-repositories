@@ -20,11 +20,17 @@ It also allows you to add favorite developers under your profile and add custom 
 
 To use the program, you need to log in to your own GitHub account via our interface with secure GitHub OAuth authentication, as this is the only way to ensure extended API access to the platform and proper connectivity to import existing data to this platform.
 
-These are the additional features of the application:
-- Exporting your own lists to an Excel spreadsheet.
-- Export our own lists to Excel
-- Easy cloning of the user's favorite and tracked repositories
-to this platform also from the GitHub interface.
+**These are additional features of the application:**
+- Export your own lists to an Excel spreadsheet.
+- Easy cloning of user's favorite and tracked repositories to this platform from their GitHub account.
+- Add your own comments to all favorite repositories and developers.
+- Custom card-based visualization interface.
+- Weekly repository recommendations
+
+Features planned and under development.......:
+- More fast information display options
+- Save your own lists as PDF.
+- ............................
 
 ![Application Screenshot](pictures/Readme01.jpg)
 
@@ -101,11 +107,15 @@ to this platform also from the GitHub interface.
 </p>
 
 
-## Simple text-based and fixed term based search
+## Simple text-based search
 <p align="center">
   <img src="pictures/search.gif" alt"Simple text-based and fixed term based search process width="800">
 </p>
 
+## Fixed term based search
+<p align="center">
+  <img src="pictures/search_fix.gif" alt"Simple text-based and fixed term based search process width="800">
+</p>
 
 ## Favorite repositories management and categorization
 - under development....
